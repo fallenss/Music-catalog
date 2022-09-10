@@ -1,0 +1,137 @@
+﻿<Window x:Class="Курсилио.AdminPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Курсилио"
+        mc:Ignorable="d"
+        Title="Панель администратора" Height="1080"  Width="1920" WindowState="Maximized" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="Button1_1" TargetType="{x:Type Button}">
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FFC2EA61" Offset="0"/>
+                        <GradientStop Color="#FF8EBD00" Offset="1"/>
+                    </RadialGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#FF242424" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="2" Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="50" Direction="0" Color="#FFBADA6D"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Path x:Name="PathIcon" Width="15" 
+                                      Height="25" Stretch="Fill" Fill="#4C87B3" 
+                                      HorizontalAlignment="Left" Margin="0,0,0,0"/>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="#FFCEF07E" Offset="0"/>
+                                            <GradientStop Color="#FFA8D815" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="PathIcon" Property="Fill" Value="#FFFDFDFD" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FFB2B2B2" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="Button1_2" TargetType="{x:Type Button}">
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FFEA7461" Offset="0"/>
+                        <GradientStop Color="#FFF32808" Offset="1"/>
+                    </RadialGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#FF242424" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="2" Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="50" Direction="0" Color="#FFDA816D"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Path x:Name="PathIcon" Width="15" 
+                                      Height="25" Stretch="Fill" Fill="#4C87B3" 
+                                      HorizontalAlignment="Left" Margin="0,0,0,0"/>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="#FFAE4E49" Offset="0"/>
+                                            <GradientStop Color="#FFBF270F" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="PathIcon" Property="Fill" Value="#FFFDFDFD" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FFB2B2B2" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#FF242424">
+        <DataGrid x:Name="Gridetsky" AutoGenerateColumns="False" Margin="150,10,10,10" VerticalAlignment="Top"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID_жанра" Binding="{Binding ID_жанра}"/>
+                <DataGridTextColumn Header ="Название" Binding="{Binding Название}"/>
+                <DataGridTextColumn Header ="Дата_создания" Binding="{Binding Дата_создания}"/>
+                <DataGridTextColumn Header ="Популярность" Binding="{Binding Популярность}"/>
+                <DataGridTextColumn Header ="Рейтинг" Binding="{Binding Рейтинг}"/>
+                <DataGridTextColumn Header ="Количество_оценок" Binding="{Binding Количество_оценок}"/>
+                <DataGridComboBoxColumn Header ="ID_исполнителя" SelectedItemBinding="{Binding Исполнители}" DisplayMemberPath="Псевдоним_исполнителя" x:Name="a1"/>
+                <DataGridComboBoxColumn Header="ID_композитора" SelectedItemBinding="{Binding Композиторы}" DisplayMemberPath="Псевдоним_композитора" x:Name="a2"/>
+                <DataGridComboBoxColumn Header ="ID_инструмента" SelectedItemBinding="{Binding Инструменты}" DisplayMemberPath="Наименование_инструмента" x:Name="a3"/>
+                <DataGridTextColumn Header ="История" Binding="{Binding История}"/>
+                <DataGridTextColumn Header ="Звучание" Binding="{Binding Звучание}"/>
+                <DataGridTextColumn Header ="картинка" Binding="{Binding картинка}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="smert" Content="Удалить" HorizontalAlignment="Left" Margin="10,1007,0,0" VerticalAlignment="Top" Width="133" FontWeight="Bold"
+                Style="{StaticResource Button1_2}" Click="smert_Click"/>
+        <Button x:Name="red" Content="Редактировать" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="133" FontWeight="Bold"
+                Style="{StaticResource Button1_1}" Click="red_Click"/>
+        <Button x:Name="add" Content="Добавить" HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top" Width="133" FontWeight="Bold"
+                Style="{StaticResource Button1_1}" Click="add_Click"/>
+        <Button x:Name="back" Content="Назад" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top" Width="133" FontWeight="Bold"
+            Style="{StaticResource Button1_1}" Click="back_Click"/>
+        <Button x:Name="rep_user" Content="Жанры" HorizontalAlignment="Left" Margin="10,285,0,0" VerticalAlignment="Top" Width="133" FontWeight="Bold"
+            Style="{StaticResource Button1_1}" Click="rep_user_Click" Height="52"/>
+        <Button x:Name="rep_game" Content="Пользователи" HorizontalAlignment="Left" Margin="10,365,0,0" VerticalAlignment="Top" Width="133" FontWeight="Bold"
+            Style="{StaticResource Button1_1}" Click="rep_game_Click" Height="52"/>
+    </Grid>
+</Window>

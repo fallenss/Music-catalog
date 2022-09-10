@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Клубная_музыкаModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Инструменты">
+    <Key>
+      <PropertyRef Name="ID_инструмента" />
+    </Key>
+    <Property Name="ID_инструмента" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Наименование_инструмента" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Жанр" Relationship="Клубная_музыкаModel.FK_Трек_Инструменты" FromRole="Инструменты" ToRole="Жанр" />
+  </EntityType>
+  <EntityType Name="Исполнители">
+    <Key>
+      <PropertyRef Name="ID_исполнителя" />
+    </Key>
+    <Property Name="ID_исполнителя" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Псевдоним_исполнителя" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ФИО_исполнителя" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Жанр" Relationship="Клубная_музыкаModel.FK_Трек_Исполнители" FromRole="Исполнители" ToRole="Жанр" />
+  </EntityType>
+  <EntityType Name="Композиторы">
+    <Key>
+      <PropertyRef Name="ID_композитора" />
+    </Key>
+    <Property Name="ID_композитора" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Псевдоним_композитора" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ФИО_композитора" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Жанр" Relationship="Клубная_музыкаModel.FK_Трек_Композиторы" FromRole="Композиторы" ToRole="Жанр" />
+  </EntityType>
+  <EntityType Name="Пользователи">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Никнейм" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Пароль" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Оценённые" Relationship="Клубная_музыкаModel.FK_Рейтинг_Пользователи" FromRole="Пользователи" ToRole="Оценённые" />
+  </EntityType>
+  <EntityContainer Name="Клубная_музыкаEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Инструменты" EntityType="Self.Инструменты" />
+    <EntitySet Name="Исполнители" EntityType="Self.Исполнители" />
+    <EntitySet Name="Композиторы" EntityType="Self.Композиторы" />
+    <EntitySet Name="Пользователи" EntityType="Self.Пользователи" />
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Клубная_музыкаModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Клубная_музыкаModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="Оценённые" EntityType="Клубная_музыкаModel.Оценённые" />
+    <AssociationSet Name="FK_Рейтинг_Пользователи" Association="Клубная_музыкаModel.FK_Рейтинг_Пользователи">
+      <End Role="Пользователи" EntitySet="Пользователи" />
+      <End Role="Оценённые" EntitySet="Оценённые" />
+    </AssociationSet>
+    <EntitySet Name="лого" EntityType="Клубная_музыкаModel.лого" />
+    <EntitySet Name="Жанр" EntityType="Клубная_музыкаModel.Жанр" />
+    <AssociationSet Name="FK_Жанр_лого" Association="Клубная_музыкаModel.FK_Жанр_лого">
+      <End Role="лого" EntitySet="лого" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Рейтинг_Трек" Association="Клубная_музыкаModel.FK_Рейтинг_Трек">
+      <End Role="Жанр" EntitySet="Жанр" />
+      <End Role="Оценённые" EntitySet="Оценённые" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Трек_Инструменты" Association="Клубная_музыкаModel.FK_Трек_Инструменты">
+      <End Role="Инструменты" EntitySet="Инструменты" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Трек_Исполнители" Association="Клубная_музыкаModel.FK_Трек_Исполнители">
+      <End Role="Исполнители" EntitySet="Исполнители" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Трек_Композиторы" Association="Клубная_музыкаModel.FK_Трек_Композиторы">
+      <End Role="Композиторы" EntitySet="Композиторы" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Оценённые">
+    <Key>
+      <PropertyRef Name="ID_Оцененного" />
+    </Key>
+    <Property Name="ID_Оцененного" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Номер_Жанра" Type="Int32" Nullable="false" />
+    <Property Name="ID_Пользователя" Type="Int32" Nullable="false" />
+    <Property Name="Оценка" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Пользователи" Relationship="Клубная_музыкаModel.FK_Рейтинг_Пользователи" FromRole="Оценённые" ToRole="Пользователи" />
+    <NavigationProperty Name="Жанр" Relationship="Клубная_музыкаModel.FK_Рейтинг_Трек" FromRole="Оценённые" ToRole="Жанр" />
+  </EntityType>
+  <Association Name="FK_Рейтинг_Пользователи">
+    <End Type="Клубная_музыкаModel.Пользователи" Role="Пользователи" Multiplicity="1" />
+    <End Type="Клубная_музыкаModel.Оценённые" Role="Оценённые" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Пользователи">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Оценённые">
+        <PropertyRef Name="ID_Пользователя" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="лого">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="screen" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="screen_format" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Жанр" Relationship="Клубная_музыкаModel.FK_Жанр_лого" FromRole="лого" ToRole="Жанр" />
+  </EntityType>
+  <EntityType Name="Жанр">
+    <Key>
+      <PropertyRef Name="ID_жанра" />
+    </Key>
+    <Property Name="ID_жанра" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Дата_создания" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Популярность" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Рейтинг" Type="Double" Nullable="false" />
+    <Property Name="Количество_оценок" Type="Int32" Nullable="false" />
+    <Property Name="ID_исполнителя" Type="Int32" Nullable="false" />
+    <Property Name="ID_композитора" Type="Int32" Nullable="false" />
+    <Property Name="ID_инструмента" Type="Int32" Nullable="false" />
+    <Property Name="История" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Звучание" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="картинка" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="лого" Relationship="Клубная_музыкаModel.FK_Жанр_лого" FromRole="Жанр" ToRole="лого" />
+    <NavigationProperty Name="Оценённые" Relationship="Клубная_музыкаModel.FK_Рейтинг_Трек" FromRole="Жанр" ToRole="Оценённые" />
+    <NavigationProperty Name="Инструменты" Relationship="Клубная_музыкаModel.FK_Трек_Инструменты" FromRole="Жанр" ToRole="Инструменты" />
+    <NavigationProperty Name="Исполнители" Relationship="Клубная_музыкаModel.FK_Трек_Исполнители" FromRole="Жанр" ToRole="Исполнители" />
+    <NavigationProperty Name="Композиторы" Relationship="Клубная_музыкаModel.FK_Трек_Композиторы" FromRole="Жанр" ToRole="Композиторы" />
+  </EntityType>
+  <Association Name="FK_Жанр_лого">
+    <End Type="Клубная_музыкаModel.лого" Role="лого" Multiplicity="1" />
+    <End Type="Клубная_музыкаModel.Жанр" Role="Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="лого">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="картинка" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Рейтинг_Трек">
+    <End Type="Клубная_музыкаModel.Жанр" Role="Жанр" Multiplicity="1" />
+    <End Type="Клубная_музыкаModel.Оценённые" Role="Оценённые" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Жанр">
+        <PropertyRef Name="ID_жанра" />
+      </Principal>
+      <Dependent Role="Оценённые">
+        <PropertyRef Name="Номер_Жанра" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Трек_Инструменты">
+    <End Type="Клубная_музыкаModel.Инструменты" Role="Инструменты" Multiplicity="1" />
+    <End Type="Клубная_музыкаModel.Жанр" Role="Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Инструменты">
+        <PropertyRef Name="ID_инструмента" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="ID_инструмента" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Трек_Исполнители">
+    <End Type="Клубная_музыкаModel.Исполнители" Role="Исполнители" Multiplicity="1" />
+    <End Type="Клубная_музыкаModel.Жанр" Role="Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Исполнители">
+        <PropertyRef Name="ID_исполнителя" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="ID_исполнителя" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Трек_Композиторы">
+    <End Type="Клубная_музыкаModel.Композиторы" Role="Композиторы" Multiplicity="1" />
+    <End Type="Клубная_музыкаModel.Жанр" Role="Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Композиторы">
+        <PropertyRef Name="ID_композитора" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="ID_композитора" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

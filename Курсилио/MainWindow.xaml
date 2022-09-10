@@ -1,0 +1,155 @@
+﻿<Window x:Class="Курсилио.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Курсилио"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Каталог" Height="1900" Width="1920" ResizeMode="NoResize" WindowState="Maximized" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+        <Style x:Key="Button1_1" TargetType="{x:Type Button}">
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FFC2EA61" Offset="0"/>
+                        <GradientStop Color="#FF8EBD00" Offset="1"/>
+                    </RadialGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="2" Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="150" Direction="0" Color="#FFBADA6D"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Path x:Name="PathIcon" Width="15" 
+                                      Height="25" Stretch="Fill" Fill="#4C87B3" 
+                                      HorizontalAlignment="Left" Margin="0,0,0,0"/>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="#FFCEF07E" Offset="0"/>
+                                            <GradientStop Color="#FFA8D815" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="PathIcon" Property="Fill" Value="#FFFDFDFD" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FFB2B2B2" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#FF1C0D26">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="170"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="1600"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.RowSpan="2" Grid.ColumnSpan="3" >
+            <Image Source="pic/3.png" Height="700"/>
+        </Grid>
+        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" Grid.ColumnSpan="3" Grid.RowSpan="3">
+            <Grid Margin="0,380,0,0" Background="#FF1C0D26">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="1600"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ListView x:Name="LViewGames" Grid.Row="1" Grid.Column="1" Background="White" 
+                          SelectionMode="Single" SelectionChanged="LViewMusics_SelectionChanged"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          HorizontalContentAlignment="Center">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="20" Width="350">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70"></RowDefinition>
+                                    <RowDefinition Height="510"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <!--<RowDefinition Height="auto"></RowDefinition>-->
+                                </Grid.RowDefinitions>
+                                <Image x:Name ="Lovushaka" Source="{Binding лого.screen}" Grid.Row="1" Stretch="UniformToFill" HorizontalAlignment="Center" Margin="5" Width="391" Height="500"></Image>
+                                <TextBlock x:Name="aboba" Text="{Binding Название}"
+                                           VerticalAlignment="Center" 
+                                           TextAlignment="Center"  Width="350" Foreground="White"
+                                   TextWrapping="Wrap" HorizontalAlignment="Center" FontSize="26" Grid.Row="0"></TextBlock>
+                                <TextBlock Text="{Binding Популярность}" Foreground="White" Grid.Row="2" Margin="5 5 5 15" HorizontalAlignment="Center" FontSize="26" FontWeight="Bold"></TextBlock>
+                                <TextBlock Text="{Binding Рейтинг, StringFormat={}{0:N1}}" Foreground="White" Grid.Row="3" FontSize="14" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                                    <Image Source="pic/Full.png" Margin="-60,10,0,0" Height="15"/>
+                                </TextBlock>
+                                <!--<TextBlock Text="{Binding Описание}" TextWrapping="Wrap" Foreground="White" Grid.Row="4" FontSize="14" HorizontalAlignment="Left"></TextBlock>-->
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </ScrollViewer>
+        <Grid Grid.Row="0" Grid.ColumnSpan="3" Margin="30,40,30,40" Background="#99292929">
+            <TextBox Grid.Row="0" x:Name="Find" HorizontalAlignment="Left"
+                         Margin="20,20,0,0"  BorderBrush="#FFC1FF04"
+                         FontSize="35" Foreground="White" 
+                         materialDesign:HintAssist.Hint="Поиск по названию:" VerticalAlignment="Top"
+                         TextChanged="Find_TextChanged" GotFocus="Find_GotFocus" MouseDown="Find_MouseDown" Width="351"/>
+            <ComboBox Grid.Row="0" Width="350" Name="ComboGenre" Background="#7FFFFFFF" Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                  Foreground="Black" FontSize="24" GotFocus="ComboGenre_GotFocus" Margin="818,14,686,10" >
+                <TextBlock Text="Любая популярность" />
+                <TextBlock Text="Ниочём" />
+                <TextBlock Text="Для нищих" />
+                <TextBlock Text="Underground" />
+                <TextBlock Text="Очередной" />
+                <TextBlock Text="Впечатляет" />
+                <TextBlock Text="Легенда" />
+            </ComboBox>
+            <ComboBox Grid.Row="0" Width="350" Name="ComboRating" Background="#7FFFFFFF" Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                  Foreground="Black" FontSize="24" GotFocus="ComboRating_GotFocus" Margin="1227,14,277,10" >
+                <TextBlock Text="Любой рейтинг" />
+                <TextBlock Text="Более 1" />
+                <TextBlock Text="Более 2" />
+                <TextBlock Text="Более 3" />
+                <TextBlock Text="Более 4" />
+            </ComboBox>
+            <Button Grid.Row="0" x:Name="Back" Content="Выйти" Margin="0,0,30,0"
+                Width="120" Height="40" Foreground="#FFECECEC" HorizontalAlignment="Right" FontWeight="Bold"
+                Style="{StaticResource Button1_1}" Click="Back_Click"
+                />
+            <TextBox Grid.Row="0" x:Name="Find_Copy" HorizontalAlignment="Left"
+                Margin="401,20,0,0"  BorderBrush="#FFC1FF04"
+                FontSize="35" Foreground="White" 
+                materialDesign:HintAssist.Hint="Поиск по продюсерам:" VerticalAlignment="Top"
+                TextChanged="FindCopy_TextChanged" GotFocus="Find_GotFocus" MouseDown="Find_MouseDown" Width="385"/>
+        </Grid>
+    </Grid>
+</Window>

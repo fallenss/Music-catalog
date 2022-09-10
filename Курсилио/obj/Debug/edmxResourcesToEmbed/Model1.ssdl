@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище Клубная_музыкаModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Жанр">
+    <Key>
+      <PropertyRef Name="ID_жанра" />
+    </Key>
+    <Property Name="ID_жанра" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Название" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Дата_создания" Type="date" Nullable="false" />
+    <Property Name="Популярность" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Рейтинг" Type="float" Nullable="false" />
+    <Property Name="Количество_оценок" Type="int" Nullable="false" />
+    <Property Name="ID_исполнителя" Type="int" Nullable="false" />
+    <Property Name="ID_композитора" Type="int" Nullable="false" />
+    <Property Name="ID_инструмента" Type="int" Nullable="false" />
+    <Property Name="История" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Звучание" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="картинка" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Инструменты">
+    <Key>
+      <PropertyRef Name="ID_инструмента" />
+    </Key>
+    <Property Name="ID_инструмента" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Наименование_инструмента" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Исполнители">
+    <Key>
+      <PropertyRef Name="ID_исполнителя" />
+    </Key>
+    <Property Name="ID_исполнителя" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Псевдоним_исполнителя" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ФИО_исполнителя" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Композиторы">
+    <Key>
+      <PropertyRef Name="ID_композитора" />
+    </Key>
+    <Property Name="ID_композитора" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Псевдоним_композитора" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ФИО_композитора" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="лого">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="screen" Type="image" Nullable="false" />
+    <Property Name="screen_format" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Оценённые">
+    <Key>
+      <PropertyRef Name="ID_Оцененного" />
+    </Key>
+    <Property Name="ID_Оцененного" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Номер_Жанра" Type="int" Nullable="false" />
+    <Property Name="ID_Пользователя" Type="int" Nullable="false" />
+    <Property Name="Оценка" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Пользователи">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Никнейм" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Пароль" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Жанр_лого">
+    <End Role="лого" Type="Self.лого" Multiplicity="1" />
+    <End Role="Жанр" Type="Self.Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="лого">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="картинка" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Рейтинг_Пользователи">
+    <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="1" />
+    <End Role="Оценённые" Type="Self.Оценённые" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Пользователи">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Оценённые">
+        <PropertyRef Name="ID_Пользователя" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Рейтинг_Трек">
+    <End Role="Жанр" Type="Self.Жанр" Multiplicity="1" />
+    <End Role="Оценённые" Type="Self.Оценённые" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Жанр">
+        <PropertyRef Name="ID_жанра" />
+      </Principal>
+      <Dependent Role="Оценённые">
+        <PropertyRef Name="Номер_Жанра" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Трек_Инструменты">
+    <End Role="Инструменты" Type="Self.Инструменты" Multiplicity="1" />
+    <End Role="Жанр" Type="Self.Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Инструменты">
+        <PropertyRef Name="ID_инструмента" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="ID_инструмента" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Трек_Исполнители">
+    <End Role="Исполнители" Type="Self.Исполнители" Multiplicity="1" />
+    <End Role="Жанр" Type="Self.Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Исполнители">
+        <PropertyRef Name="ID_исполнителя" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="ID_исполнителя" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Трек_Композиторы">
+    <End Role="Композиторы" Type="Self.Композиторы" Multiplicity="1" />
+    <End Role="Жанр" Type="Self.Жанр" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Композиторы">
+        <PropertyRef Name="ID_композитора" />
+      </Principal>
+      <Dependent Role="Жанр">
+        <PropertyRef Name="ID_композитора" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="Хранилище Клубная_музыкаModelContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Жанр" EntityType="Self.Жанр" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Инструменты" EntityType="Self.Инструменты" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Исполнители" EntityType="Self.Исполнители" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Композиторы" EntityType="Self.Композиторы" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="лого" EntityType="Self.лого" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Оценённые" EntityType="Self.Оценённые" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Пользователи" EntityType="Self.Пользователи" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Жанр_лого" Association="Self.FK_Жанр_лого">
+      <End Role="лого" EntitySet="лого" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Рейтинг_Пользователи" Association="Self.FK_Рейтинг_Пользователи">
+      <End Role="Пользователи" EntitySet="Пользователи" />
+      <End Role="Оценённые" EntitySet="Оценённые" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Рейтинг_Трек" Association="Self.FK_Рейтинг_Трек">
+      <End Role="Жанр" EntitySet="Жанр" />
+      <End Role="Оценённые" EntitySet="Оценённые" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Трек_Инструменты" Association="Self.FK_Трек_Инструменты">
+      <End Role="Инструменты" EntitySet="Инструменты" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Трек_Исполнители" Association="Self.FK_Трек_Исполнители">
+      <End Role="Исполнители" EntitySet="Исполнители" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Трек_Композиторы" Association="Self.FK_Трек_Композиторы">
+      <End Role="Композиторы" EntitySet="Композиторы" />
+      <End Role="Жанр" EntitySet="Жанр" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

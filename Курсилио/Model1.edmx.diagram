@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7b01476926f8484d9a22a52e250fb255" Name="Diagram1">
+        <EntityTypeShape EntityType="Клубная_музыкаModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Клубная_музыкаModel.Инструменты" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Клубная_музыкаModel.Исполнители" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Клубная_музыкаModel.Композиторы" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Клубная_музыкаModel.Пользователи" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Клубная_музыкаModel.Оценённые" Width="1.5" PointX="5.25" PointY="2.5" />
+        <AssociationConnector Association="Клубная_музыкаModel.FK_Рейтинг_Пользователи" />
+        <EntityTypeShape EntityType="Клубная_музыкаModel.лого" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Клубная_музыкаModel.Жанр" Width="1.5" PointX="3" PointY="1.25" />
+        <AssociationConnector Association="Клубная_музыкаModel.FK_Жанр_лого" />
+        <AssociationConnector Association="Клубная_музыкаModel.FK_Рейтинг_Трек" />
+        <AssociationConnector Association="Клубная_музыкаModel.FK_Трек_Инструменты" />
+        <AssociationConnector Association="Клубная_музыкаModel.FK_Трек_Исполнители" />
+        <AssociationConnector Association="Клубная_музыкаModel.FK_Трек_Композиторы" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
